@@ -70,8 +70,18 @@ app.use("/settings", auth, SettingsRoutes);
 app.use("/users", admin, UsersRoutes);
 
 // check API status page
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
 	res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// launch app
+app.use(express.static(path.join(__dirname, "app/browser")));
+app.get("/", (req, res) => {
+	res.sendFile(path.join(__dirname, "app/browser", "index.html"));
+});
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "app/browser", "index.html"));
 });
 
 // handle errors

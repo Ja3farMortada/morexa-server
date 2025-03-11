@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "morexa-server",
   "version": "1.0.0",
-  "description": "express server",
+  "description": "Morexa Server",
   "main": "index.js",
   "scripts": {
     "start": "nodemon development.js"
@@ -17,7 +17,6 @@
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
     "mysql2": "^3.9.7",
-    "node-thermal-printer": "^4.4.4",
     "socket.io": "^4.7.5"
   },
   "devDependencies": {

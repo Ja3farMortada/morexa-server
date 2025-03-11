@@ -3,14 +3,20 @@ const SellOrder = require("../models/SellOrdersModel");
 // add order
 exports.addOrder = async (req, res, next) => {
     try {
-        const order = req.body;
+        const order = req.body.invoice;
         const items = order.items;
+        const payment = req.body.payment;
+        const io = req.io;
+        const user = req.user;
 
         delete order.items;
 
-        const order_id = await SellOrder.create(order, items);
+        const order_id = await SellOrder.create(order, items, payment);
 
         const createdOrder = await SellOrder.getById(order_id);
+
+        // emit socket
+        io.emit("sellOrderCreated", [createdOrder, user]);
 
         res.status(201).send(createdOrder);
     } catch (error) {

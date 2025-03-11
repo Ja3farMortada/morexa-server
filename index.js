@@ -16,9 +16,9 @@ const errorHandler = require("./middleware/errorHandler");
 const socketIO = require("socket.io");
 const server = http.createServer(app);
 const io = socketIO(server, {
-	cors: {
-		origins: ["*"],
-	},
+    cors: {
+        origins: ["*"],
+    },
 });
 
 //import routes
@@ -40,21 +40,16 @@ const PurchaseOrdersRoutes = require("./routes/purchase.routes");
 const DatabaseRoutes = require("./routes/database.routes");
 const NotesRoutes = require("./routes/notes.routes");
 const SettingsRoutes = require("./routes/settings.routes");
-const PrintRoutes = require("./routes/print.routes");
 
 app.use((req, res, next) => {
-	req.io = io;
-	next();
+    req.io = io;
+    next();
 });
 
 // common routes
 app.use("/auth", AuthRoutes);
 app.use("/database", DatabaseRoutes);
 
-// printer cash drawer
-app.use("/settings", SettingsRoutes);
-
-app.use("/print", auth, PrintRoutes);
 app.use("/stock", auth, StockRoutes);
 app.use("/profile", auth, ProfileRoutes);
 app.use("/sell-orders", auth, SellOrdersRoutes);
@@ -69,26 +64,17 @@ app.use("/suppliers", auth, SuppliersRoutes);
 app.use("/reservations", auth, ReservationsRoutes);
 app.use("/supply", auth, PurchaseOrdersRoutes);
 app.use("/notes", auth, NotesRoutes);
+app.use("/settings", auth, SettingsRoutes);
 
 // admin routes
 app.use("/users", admin, UsersRoutes);
 
 // check API status page
-app.get("/api", (req, res) => {
-	res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-// launch app
-app.use(express.static(path.join(__dirname, "app/browser")));
 app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "app/browser", "index.html"));
-});
-
-app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "app/browser", "index.html"));
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // handle errors
 app.use(errorHandler);
 
-server.listen(3500, () => console.log(`listening on port 3500 ...`));
+module.exports = server;

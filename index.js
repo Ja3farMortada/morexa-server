@@ -16,9 +16,9 @@ const errorHandler = require("./middleware/errorHandler");
 const socketIO = require("socket.io");
 const server = http.createServer(app);
 const io = socketIO(server, {
-    cors: {
-        origins: ["*"],
-    },
+	cors: {
+		origins: ["*"],
+	},
 });
 
 //import routes
@@ -42,8 +42,8 @@ const NotesRoutes = require("./routes/notes.routes");
 const SettingsRoutes = require("./routes/settings.routes");
 
 app.use((req, res, next) => {
-    req.io = io;
-    next();
+	req.io = io;
+	next();
 });
 
 // common routes
@@ -71,10 +71,10 @@ app.use("/users", admin, UsersRoutes);
 
 // check API status page
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+	res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // handle errors
 app.use(errorHandler);
 
-module.exports = server;
+server.listen(3500, () => console.log(`listening on port 3500 ...`));
